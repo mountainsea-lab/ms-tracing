@@ -47,7 +47,7 @@ pub fn fmt_json_value(v: &Option<Value>) -> String {
 #[macro_export]
 macro_rules! trace_kv {
     ($level:ident, $( $key:expr => $val:expr ),+ $(,)?) => {
-        tracing::$level!( $( $key = ?$val ),+ );
+        $crate::internal::$level!( $( $key = ?$val ),+ );
     };
 }
 
