@@ -47,7 +47,7 @@ pub fn fmt_json_value(v: &Option<Value>) -> String {
 #[macro_export]
 macro_rules! trace_kv {
     ($level:ident, $( $key:expr => $val:expr ),+ $(,)?) => {
-        $crate::internal::$level!( $( $key = ?$val ),+ );
+        $crate::tracing_utils::internal::$level!( $( $key = ?$val ),+ );
     };
 }
 
@@ -90,7 +90,6 @@ mod tests {
     use serde_json::json;
     use crate::setup_tracing;
     use crate::tracing_utils::{fmt_json_value, fmt_naive_date};
-
     #[tokio::test]
     async fn test_get_coin_data() {
         setup_tracing();
