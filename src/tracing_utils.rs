@@ -51,7 +51,11 @@ macro_rules! trace_kv {
     };
 }
 
-
+/// 隐藏的内部模块，只暴露给宏使用（不污染外部作用域）
+#[doc(hidden)]
+pub mod internal {
+    pub use tracing::{trace, debug, info, warn, error};
+}
 
 /// 通用批量转换 trait，支持将 `Vec<T>` 转换为 `Vec<U>`，前提是 `U: From<T>`
 pub trait VecConvert<T, U> {

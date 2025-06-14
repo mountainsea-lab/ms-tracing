@@ -7,11 +7,6 @@ use tracing_subscriber::{layer::SubscriberExt,util::SubscriberInitExt, EnvFilter
 
 pub mod tracing_utils;
 
-/// 隐藏的内部模块，只暴露给宏使用（不污染外部作用域）
-#[doc(hidden)]
-pub mod internal {
-    pub use tracing::{trace, debug, info, warn, error};
-}
 
 pub fn setup_tracing() {
     // Create an EnvFilter that reads from RUST_LOG with INFO as default
