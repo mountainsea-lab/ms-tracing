@@ -1,11 +1,11 @@
-pub mod tracing_utils;
-
 use chrono::Utc;
 use serde::{Deserialize, Serialize};
 use std::{fs::OpenOptions, io::Write, sync::Arc};
 use tokio::sync::{broadcast, RwLock};
 use tracing::{Event, Subscriber};
 use tracing_subscriber::{layer::SubscriberExt,util::SubscriberInitExt, EnvFilter, Layer, Registry};
+
+pub mod tracing_utils;
 
 pub fn setup_tracing() {
     // Create an EnvFilter that reads from RUST_LOG with INFO as default
