@@ -5,6 +5,7 @@ use tokio::sync::{broadcast, RwLock};
 use tracing::{Event, Subscriber};
 use tracing_subscriber::{layer::SubscriberExt,util::SubscriberInitExt, EnvFilter, Layer, Registry};
 
+pub use tracing::*;
 pub mod tracing_utils;
 
 pub fn setup_tracing() {
