@@ -54,7 +54,7 @@ macro_rules! trace_kv {
 /// 隐藏的内部模块，只暴露给宏使用（不污染外部作用域）
 #[doc(hidden)]
 pub mod internal {
-    pub use tracing::{trace, debug, info, warn, error};
+    pub use tracing::{debug, error, info, trace, warn};
 }
 
 /// 通用批量转换 trait，支持将 `Vec<T>` 转换为 `Vec<U>`，前提是 `U: From<T>`
@@ -83,13 +83,12 @@ where
     }
 }
 
-
 #[cfg(test)]
 mod tests {
-    use chrono::NaiveDate;
-    use serde_json::json;
     use crate::setup_tracing;
     use crate::tracing_utils::{fmt_json_value, fmt_naive_date};
+    use chrono::NaiveDate;
+    use serde_json::json;
     #[tokio::test]
     async fn test_get_coin_data() {
         setup_tracing();
@@ -101,13 +100,11 @@ mod tests {
         let categories = Some(json!(["DeFi", "Layer 1"]));
 
         trace_kv!(info,
-        "id" => "data_id",
-        "symbol" => "BTC",
-        "price" => "65000.00",
-        "genesis_date" => fmt_naive_date(&genesis_date),
-        "categories" => fmt_json_value(&categories),
-       );
+         "id" => "data_id",
+         "symbol" => "BTC",
+         "price" => "65000.00",
+         "genesis_date" => fmt_naive_date(&genesis_date),
+         "categories" => fmt_json_value(&categories),
+        );
     }
-
 }
-

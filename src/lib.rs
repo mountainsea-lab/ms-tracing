@@ -3,10 +3,11 @@ use serde::{Deserialize, Serialize};
 use std::{fs::OpenOptions, io::Write, sync::Arc};
 use tokio::sync::{broadcast, RwLock};
 use tracing::{Event, Subscriber};
-use tracing_subscriber::{layer::SubscriberExt,util::SubscriberInitExt, EnvFilter, Layer, Registry};
+use tracing_subscriber::{
+    layer::SubscriberExt, util::SubscriberInitExt, EnvFilter, Layer, Registry,
+};
 
 pub mod tracing_utils;
-
 
 pub fn setup_tracing() {
     // Create an EnvFilter that reads from RUST_LOG with INFO as default
@@ -29,7 +30,6 @@ pub fn setup_tracing() {
             .init();
     }
 }
-
 
 #[derive(Serialize, Clone, Debug)]
 pub struct LogEntry {
@@ -73,7 +73,9 @@ impl<S: Subscriber> Layer<S> for BroadcastLogLayer {
             timestamp: Utc::now().to_rfc3339(),
             level: event.metadata().level().to_string(),
             target: event.metadata().target().to_string(),
-            message: visitor.message.unwrap_or_else(|| "<no message>".to_string()),
+            message: visitor
+                .message
+                .unwrap_or_else(|| "<no message>".to_string()),
         });
 
         // 广播日志副本（需要 LogEntry 实现 Clone）
@@ -116,4 +118,3 @@ impl tracing::field::Visit for TracingVisitor {
         }
     }
 }
-

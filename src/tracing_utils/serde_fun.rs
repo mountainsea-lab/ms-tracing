@@ -189,6 +189,24 @@ impl FromJsonValue for i64 {
     }
 }
 
+impl FromJsonValue for u64 {
+    fn from_json_value(v: &Value, name: &'static str) -> Result<Self, ParseError> {
+        match v {
+            Value::String(s) => s
+                .trim()
+                .parse::<u64>()
+                .map_err(|e| ParseError::InvalidFormat(name, format!("not a valid u64: {}", e))),
+            Value::Number(n) => n
+                .as_u64()
+                .ok_or_else(|| ParseError::InvalidFormat(name, format!("not a u64: {:?}", n))),
+            _ => Err(ParseError::InvalidFormat(
+                name,
+                format!("invalid type: {:?}", v),
+            )),
+        }
+    }
+}
+
 impl FromJsonValue for String {
     fn from_json_value(v: &Value, _name: &'static str) -> Result<Self, ParseError> {
         match v {
